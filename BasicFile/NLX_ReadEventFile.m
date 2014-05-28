@@ -12,6 +12,10 @@ function [AutomaticEvents,ManualEvents] = NLX_ReadEventFile(FName)
     FName = fullfile(filePath,fileName);
  end
 
+if ~exist(FName,2)
+    error('FileChk:FileNotFound',['Event file not found: ',FName]);
+end
+ 
 % Read the file
 [TimeStamps, event_ID, Nttls, EventStrings, ~] = Nlx2MatEV( FName, [1 1 1 0 1],1,1,1); % [TimeStamps, EventIDs, Nttls, Extras, EventStrings, Header]
 
