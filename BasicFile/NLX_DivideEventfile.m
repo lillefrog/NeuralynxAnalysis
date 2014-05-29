@@ -7,7 +7,7 @@ function  [DividedEventfile] = NLX_DivideEventfile(EventFile,StartEvent,StopEven
 % to that trial will also be ignored.
 %
 % Input:
-%  EventFile : Event file from NLX_ReadEventFile (N*3 array of double)
+%  EventFile : Event file from NLX_ReadEventFile (N*2 array of double)
 %  StartEvent : TTL code for the start of a trial (often 255) 
 %  StopEvent : TTL code for the End of a trial (often 254)
 %
@@ -15,8 +15,8 @@ function  [DividedEventfile] = NLX_DivideEventfile(EventFile,StartEvent,StopEven
 %  DividedEventfile : A cell array contaning event arrays
 
 % Find all the start and stop events
-StartEventArr = find(EventFile(:,3) == StartEvent);
-StopEventArr = find(EventFile(:,3) == StopEvent);
+StartEventArr = find(EventFile(:,2) == StartEvent);
+StopEventArr = find(EventFile(:,2) == StopEvent);
 
 % Trow an error if there are no start or stop events
 if isempty(StartEventArr)
