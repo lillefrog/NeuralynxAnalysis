@@ -3,6 +3,7 @@
 
 
 addpath(genpath('H:\GitHub\NeuralynxAnalysis\'));
+cd('E:\Documents\GitHub\Matlab\BasicFile\');
 
 %%
 FName = 'C:\Dropbox\temp\TFT_2014-05-23_17-52-13\Events.Nev';
