@@ -41,7 +41,7 @@ TRIAL = 0;
 for i = 1:length(StartEventArr)
     NextStop = find(StopEventArr(:)>StartEventArr(i),1,'first');
     if ((i<length(StartEventArr)) && (StartEventArr(i+1)<StopEventArr(NextStop)))   % if the next end trial are after the next start trial
-        disp(['SkipTrial: ',num2str(i)]);
+        disp(['Trial Number: ',num2str(i),'is missing a stop event, Trial Skipped']);
     elseif isempty(NextStop)   % if there is no next end trial
         disp(['SkipTrial: ',num2str(i)]);
     else
