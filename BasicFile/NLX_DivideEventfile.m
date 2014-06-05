@@ -1,4 +1,4 @@
-function  [DividedEventfile] = NLX_DivideEventfile(EventFile,StartEvent,StopEvent)
+function  [dividedEventfile] = NLX_DivideEventfile(eventFile,startEvent,stopEvent)
 % Takes an automatic event file from NLX_ReadEventFile and divides
 % all the events based on a start and stop event. Only event
 % preceded by a start event and followed by a stop event will be included.
@@ -7,26 +7,26 @@ function  [DividedEventfile] = NLX_DivideEventfile(EventFile,StartEvent,StopEven
 % to that trial will also be ignored.
 %
 % Input:
-%  EventFile : Event file from NLX_ReadEventFile (N*2 array of double)
-%  StartEvent : TTL code for the start of a trial (often 255) 
-%  StopEvent : TTL code for the End of a trial (often 254)
+%  eventFile : Event file from NLX_ReadEventFile (N*2 array of double)
+%  startEvent : TTL code for the start of a trial (often 255) 
+%  stopEvent : TTL code for the End of a trial (often 254)
 %
 % Output:
-%  DividedEventfile : A cell array contaning event arrays
+%  dividedEventfile : A cell array contaning event arrays
 
 % Find all the start and stop events
-StartEventArr = find(EventFile(:,2) == StartEvent);
-StopEventArr = find(EventFile(:,2) == StopEvent);
+StartEventArr = find(eventFile(:,2) == startEvent);
+StopEventArr = find(eventFile(:,2) == stopEvent);
 
 % Trow an error if there are no start or stop events
 if isempty(StartEventArr)
-    disp(['warning: Start event not found! (EventCode = ' ,num2str(StartEvent), ')'] );
-    error('ResultChk:IncompleteData',['warning: Start event not found! (EventCode = ' ,num2str(StartEvent), ')']);
+    disp(['warning: Start event not found! (EventCode = ' ,num2str(startEvent), ')'] );
+    error('ResultChk:IncompleteData',['warning: Start event not found! (EventCode = ' ,num2str(startEvent), ')']);
 end
 
 if isempty(StopEventArr)
-    disp(['warning: Stop event not found! (EventCode = ' ,num2str(StopEvent), ')'] );
-    error('ResultChk:IncompleteData',['warning: Stop event not found! (EventCode = ' ,num2str(StopEvent), ')']);
+    disp(['warning: Stop event not found! (EventCode = ' ,num2str(stopEvent), ')'] );
+    error('ResultChk:IncompleteData',['warning: Stop event not found! (EventCode = ' ,num2str(stopEvent), ')']);
 end
 
 
@@ -43,9 +43,9 @@ for i = 1:length(StartEventArr)
     if ((i<length(StartEventArr)) && (StartEventArr(i+1)<StopEventArr(NextStop)))   % if the next end trial are after the next start trial
         disp(['Trial Number: ',num2str(i),'is missing a stop event, Trial Skipped']);
     elseif isempty(NextStop)   % if there is no next end trial
-        disp(['SkipTrial: ',num2str(i)]);
+        disp(['Trial Number: ',num2str(i),'is missing a stop event, Trial Skipped']);
     else
         TRIAL = TRIAL + 1;
-        DividedEventfile{TRIAL} = EventFile(StartEventArr(i):StopEventArr(NextStop),:);
+        dividedEventfile{TRIAL} = eventFile(StartEventArr(i):StopEventArr(NextStop),:);
     end
 end

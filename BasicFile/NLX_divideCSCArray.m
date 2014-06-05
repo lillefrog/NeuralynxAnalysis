@@ -1,11 +1,15 @@
-function [dividedSampleArray] = NLX_divideCSCArray(SampleArray,DividedEventfile)
+function [dividedSampleArray] = NLX_DivideCSCArray(sampleArray,dividedEventfile)
 % Split a CSC file by events in a divided event file 
 
-for i=1:length(DividedEventfile)
-  startTime = min(DividedEventfile{i}(:,1));
-  stopTime = max(DividedEventfile{i}(:,1));
-  WithinTime = (SampleArray(:,1)>startTime) & (SampleArray(:,1)<stopTime);
-  splitCSCArray{i} = SampleArray( WithinTime,:);
-end
+ nTrials = length(dividedEventfile);
+ dividedSampleArray = cell(1,nTrials); % initialize
 
-dividedSampleArray = splitCSCArray;
+ % get the start and stop times from each event trial and use them to
+ % select any continous sampled data within that time frame. Any other data
+ % is ignored.
+ for i=1:nTrials
+  startTime = min(dividedEventfile{i}(:,1));
+  stopTime = max(dividedEventfile{i}(:,1));
+  withinTime = (sampleArray(:,1)>startTime) & (sampleArray(:,1)<stopTime);
+  dividedSampleArray{i} = sampleArray( withinTime,:);
+end
