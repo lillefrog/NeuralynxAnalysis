@@ -19,7 +19,7 @@ function [sampleArray,sampleRate] = NLX_ReadCSCFile(fName,tStart,tStop)
  
  % make sure that the file exist
  if ~exist(fName,'file')
-    error('FileChk:FileNotFound',['CSC file not found: ',fName]);
+    error('FileChk:FileNotFound',['CSC file not found: ', strrep(fName,'\','/') ]);
  end
  
  % if there are no start and stop time supplied we set them to read

@@ -24,7 +24,7 @@ function [automaticEvents,manualEvents] = NLX_ReadEventFile(fName)
  end
 
 if ~exist(fName,'file')
-    error('FileChk:FileNotFound',['Event file not found: ',fName]);
+    error('FileChk:FileNotFound',['Event file not found: ',strrep(fName,'\','/')]);
 end
  
 % Read the file
