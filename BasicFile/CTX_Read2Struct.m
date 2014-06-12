@@ -13,23 +13,37 @@ function [data]  = CTX_Read2Struct(fileName)
 %
 % The data size including EPP and EOG data is around 20Mb for 1000 trials
 % but this of course varies a lot 
+%
+% Requirements:
+% ctx_read and ctx_scan
+
+% TODO:
+% This function does not yet read the Expected response and response. It
+% only returns correctTrial.
+% I could also include some more error checking in case the file exist but
+% is currupted or the wrong file type
 
 
-% make sure the file exist
+
+%% make sure the file exist
 if ~exist(fileName,'file')
     error('FileChk:FileNotFound',['Cortex file not found: ', strrep(fileName,'\','/') ]);
 end
 
-% use Alwins basic function to read the data
+
+%% use Alwins basic function to read the data
 [EVT,EOG,EPP,rawHEAD] = ctx_read(fileName,[1,1,1]);
 
-% organize the data
 
-clear data
+%% organize the data
 
+clear data % adressing a struct that already exist is very dangerous so I clear it
+
+% initialize the data array
 nTrials = length(EVT);
 data(nTrials,1) = struct( 'correctTrial', [], 'condition', [], 'block', [], 'cycle', [], 'EOGSampleRate', [], 'eventArray', []);
 
+% go trough all the trials and add the data
 for trial = 1:nTrials
     data(trial).correctTrial = (rawHEAD(14,trial)==0);
     data(trial).condition = rawHEAD(2,trial);
