@@ -20,6 +20,7 @@ function [EVT,EOG,EPP,rawHEAD] = ctx_read(filepath,readflags,trialindex,filepos)
 %                               12 expected_response 13 response 14 response_error
 
 % alwin 08/07/04
+% modified christian 10/06 - 2014
 
 EVT = [];EOG = []; EPP = [];rawHEAD = [];
 
@@ -39,21 +40,21 @@ if nargin<4
     [rawHEAD,filepos] = ctx_scan(filepath);
     
     if isempty(filepos)
-        return;
+      return;
     end
     
     if nargin<3
-        trialindex = [];
-            if nargin<2
-                readflags = logical([1 1 1]);
-            end;
+      trialindex = [];
+      if nargin<2
+        readflags = logical([1 1 1]);
+      end;
     end;
 end
 
-   if isempty(trialindex)
-      trialindex = 1:size(filepos,2);
-   end
-   TrialNum = length(trialindex);
+if isempty(trialindex)
+  trialindex = 1:size(filepos,2);
+end
+TrialNum = length(trialindex);
    
 %_____________________________________________________
 % allocate event vector
@@ -70,69 +71,54 @@ EventCodeNum = diff(filepos([3 4],trialindex),1,1)./2;
 % EventCodeNum(EventCodeNum>10000) = 3616;
 
 
-%disp(EventCodeNum);
-
-
 
 
 if ~isequal(TimeCodeNum,EventCodeNum)
    EventCodeNum = TimeCodeNum;
    disp([filepath, ' reading error, number of time codes and event codes are not equal']);
    disp('overwriting Event code numbers!');
-   %error('reading error, number of time codes and event codes are not equal');
 end
 EVT = cell(1,TrialNum);
-% alternatively
-% EventNum = sum(TimeCodeNum);
-% EVT = zeros(EventNum,2).*NaN;
+
 
 %_____________________________________________________
 % open file
 
 [fid,msg] = fopen(filepath,'r');
-if fid<0;disp(msg);
+if fid<0
+    disp(msg);
     error(['Can''t open file: ' filepath]);
-    %return;
 end
 
 %_____________________________________________________
 % read data
 
-% hWait = waitbar(0,['reading ' strrep(fName,'_','\_')]);
-
 for i = 1:TrialNum
     
     % read events
-    if readflags(1)
-        
+    if readflags(1) 
         fseek(fid,filepos(2,trialindex(i)),'bof');
-        currTimeCode = fread(fid,TimeCodeNum(i),'int');% 4 bytes
-            
-        if ftell(fid)~=filepos(3,trialindex(i));error('ctx reading error');end
+        currTimeCode = fread(fid,TimeCodeNum(i),'int');% 4 bytes 
+        if ftell(fid)~=filepos(3,trialindex(i));
+            error('ctx reading error');
+        end
         currEventCode = fread(fid,EventCodeNum(i),'short');% 2 bytes
-        
         EVT{i} = cat(2,currTimeCode,currEventCode);
-        
     end
        
     % read eog
-    if readflags(2)
-        
+    if readflags(2)      
         fseek(fid,filepos(5,trialindex(i)),'bof');
         EOGNum = (filepos(6,trialindex(i))-filepos(5,trialindex(i)))./2;
-        EOG{i} = fread(fid,EOGNum,'short');
-            
+        EOG{i} = fread(fid,EOGNum,'short');       
     end
         
     % read epp
     if readflags(3)
-        
         fseek(fid,filepos(4,trialindex(i)),'bof');
         EPPNum = (filepos(5,trialindex(i))-filepos(4,trialindex(i)))./2;
-        EPP{i} = fread(fid,EPPNum,'short');
-            
+        EPP{i} = fread(fid,EPPNum,'short');    
     end
-%     waitbar(i./TrialNum,hWait)
 end
-% close(hWait);
+
 fclose(fid);

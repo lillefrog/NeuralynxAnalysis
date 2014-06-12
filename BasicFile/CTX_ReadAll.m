@@ -8,8 +8,7 @@ function [data]  = CTX_ReadAll(fileName)
 
 fileId = fopen(fileName, 'rb');
 if fileId == -1
-    %disp(['File not found: ', fileName]);
-    error('FileChk:FileNotFound',['File not found: ', fileName]);
+    error('FileChk:FileNotFound',['Cortex file not found: ', strrep(fileName,'\','/') ]);
 end
 
 
