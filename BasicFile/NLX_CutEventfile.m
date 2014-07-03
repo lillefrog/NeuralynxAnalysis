@@ -78,7 +78,7 @@ function [timestamp] = getBestFitTimestamp(manualEvents,targetEvent)
    timestamp = manualEvents(pos,1);
  else    
      % If we stille don't have a fit we give up and raise a error
-     error('FileChk:FileNotFound',['Event not found: ',targetEvent]);
+     error('FileChk:FileNotFound',['Event not found: ',targetEvent,' :  event file might be corrupted']);
  end
  
  % warn the user if we didn't have a perfect fit

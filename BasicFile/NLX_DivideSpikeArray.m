@@ -12,4 +12,6 @@ function [dividedSpikeArray] = NLX_DivideSpikeArray(spikeArray,dividedEventfile)
   stopTime = max(dividedEventfile{i}(:,1));
   withinTime = (spikeArray(:,1)>startTime) & (spikeArray(:,1)<stopTime);
   dividedSpikeArray{i} = spikeArray( withinTime,:);
-end
+ end
+
+ dividedSpikeArray = dividedSpikeArray';

@@ -49,3 +49,5 @@ for i = 1:length(StartEventArr)
         dividedEventfile{TRIAL} = eventFile(StartEventArr(i):StopEventArr(NextStop),:);
     end
 end
+
+dividedEventfile = dividedEventfile';
