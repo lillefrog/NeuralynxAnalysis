@@ -26,11 +26,14 @@ EVT = [];EOG = []; EPP = [];rawHEAD = [];
 
 if nargin<1 || isempty(filepath);
     [fName,fPath] = uigetfile('*.*','open a CORTEX data file');
-    if fName==0;return;end
+    if fName==0;
+        return;
+    end
     filepath = fullfile(fPath,fName);
-else
-    [~,fName,fExt] = fileparts(filepath);
-    fName = [fName fExt];
+end
+
+if ~exist(filepath,'file')
+    error('FileChk:FileNotFound',['Cortex file not found: ', strrep(fileName,'\','/') ]);
 end
 
 %_____________________________________________________
@@ -63,12 +66,6 @@ TrialNum = length(trialindex);
 %                4 start of eogcode block
 TimeCodeNum = diff(filepos([2 3],trialindex),1,1)./4;
 EventCodeNum = diff(filepos([3 4],trialindex),1,1)./2;
-
-% TimeCodeNum(EventCodeNum>10000) = 3616;
-% EventCodeNum(EventCodeNum>10000) = 3616;
-
-% TimeCodeNum(EventCodeNum>10000) = 3616;
-% EventCodeNum(EventCodeNum>10000) = 3616;
 
 
 

@@ -22,10 +22,17 @@ function [data]  = CTX_Read2Struct(fileName)
 % only returns correctTrial.
 % I could also include some more error checking in case the file exist but
 % is currupted or the wrong file type
-
+%
+% read inter trial interval if possible
 
 
 %% make sure the file exist
+
+ if nargin<1 || isempty(fileName);
+    [fName,filePath] = uigetfile('*.*','open a cortex data file','MultiSelect','off'); 
+    fileName = fullfile(filePath,fName);
+ end
+
 if ~exist(fileName,'file')
     error('FileChk:FileNotFound',['Cortex file not found: ', strrep(fileName,'\','/') ]);
 end
