@@ -30,7 +30,7 @@ function [data]  = CTX_Read2Struct(fileName)
 
  if nargin<1 || isempty(fileName);
     [fName,filePath] = uigetfile('*.*','open a cortex data file','MultiSelect','off'); 
-    fileName = fullfile(filePath,fName);
+    fileName = fullfile(filePath,fName)
  end
 
 if ~exist(fileName,'file')
