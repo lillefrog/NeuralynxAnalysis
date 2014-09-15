@@ -60,6 +60,7 @@ for trial = 1:nTrials
     data(trial).eventArray = EVT{trial};
     data(trial).EOGArray = EOG{trial};
     data(trial).EPPArray = EPP{trial};
+    data(trial).hasSpikes = false; % as a default there are no spikes unless proven othervise
 end
 
 
