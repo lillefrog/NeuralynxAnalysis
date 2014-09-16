@@ -18,9 +18,7 @@ function [data]  = CTX_Read2Struct(fileName)
 % ctx_read and ctx_scan
 
 % TODO:
-% This function does not yet read the Expected response and response. It
-% only returns correctTrial.
-% I could also include some more error checking in case the file exist but
+% I could include some more error checking in case the file exist but
 % is currupted or the wrong file type
 %
 % read inter trial interval if possible
@@ -30,7 +28,7 @@ function [data]  = CTX_Read2Struct(fileName)
 
  if nargin<1 || isempty(fileName);
     [fName,filePath] = uigetfile('*.*','open a cortex data file','MultiSelect','off'); 
-    fileName = fullfile(filePath,fName)
+    fileName = fullfile(filePath,fName);
  end
 
 if ~exist(fileName,'file')
@@ -52,10 +50,12 @@ data(nTrials,1) = struct( 'correctTrial', [], 'condition', [], 'block', [], 'cyc
 
 % go trough all the trials and add the data
 for trial = 1:nTrials
-    data(trial).correctTrial = (rawHEAD(14,trial)==0);
+    data(trial).expectedResponse = (rawHEAD(12,trial));
+    data(trial).actualResponse = (rawHEAD(13,trial)); % these have to be added in the stt else they just contain rubbish
+    data(trial).correctTrial = (rawHEAD(14,trial)==0); % these have to be added in the stt else they just contain rubbish
     data(trial).condition = rawHEAD(2,trial);
-    data(trial).block = rawHEAD(4,trial);
-    data(trial).cycle = rawHEAD(3,trial);
+    data(trial).block = rawHEAD(4,trial); 
+    data(trial).cycle = rawHEAD(3,trial); % repeat number
     data(trial).EOGSampleRate = 1000/rawHEAD(10,trial);
     data(trial).eventArray = EVT{trial};
     data(trial).EOGArray = EOG{trial};
