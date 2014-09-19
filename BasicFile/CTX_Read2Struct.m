@@ -7,6 +7,9 @@ function [data]  = CTX_Read2Struct(fileName)
 % data(trial).block = block number
 % data(trial).cycle = cycle number
 % data(trial).EOGSampleRate = sample rate for the EOG recording in Hz
+% data(trial).actualResponse = Code indicating the actual response 
+% data(trial).expectedResponse = you can add the expected response in the stt code and it will be returned here.
+% data(trial).hasSpikes = code indicating that the corresponding NLF file contains spikes (false until proven othervise)
 % data(trial).eventArray = The full event array (timestamp,event code)
 % data(trial).EOGArray = Eye tracking data (X value ; Y value ; X value ..)
 % data(trial).EPPArray = EPP data (X value ; Y value ; X value ..)
@@ -21,7 +24,6 @@ function [data]  = CTX_Read2Struct(fileName)
 % I could include some more error checking in case the file exist but
 % is currupted or the wrong file type
 %
-% read inter trial interval if possible
 
 
 %% make sure the file exist
