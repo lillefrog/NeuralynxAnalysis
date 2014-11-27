@@ -13,6 +13,7 @@ function [data]  = CTX_Read2Struct(fileName)
 % data(trial).eventArray = The full event array (timestamp,event code)
 % data(trial).EOGArray = Eye tracking data (X value ; Y value ; X value ..)
 % data(trial).EPPArray = EPP data (X value ; Y value ; X value ..)
+% data(trial).trialDuration = duration of the trial in mS from first event to last event
 %
 % The data size including EPP and EOG data is around 20Mb for 1000 trials
 % but this of course varies a lot 
@@ -63,6 +64,7 @@ for trial = 1:nTrials
     data(trial).EOGArray = EOG{trial};
     data(trial).EPPArray = EPP{trial};
     data(trial).hasSpikes = false; % as a default there are no spikes unless proven othervise
+    data(trial).trialDuration = data(trial).eventArray(end,1)-data(trial).eventArray(1,1);
 end
 
 
