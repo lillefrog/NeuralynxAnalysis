@@ -89,7 +89,8 @@ PositionArray = PositionArray(~BadEvents);
         Extras = AddPostToArray(Extras,Position);
     else
         if ~isempty(answer);    
-            EventStrings(Position) = answer;
+             EventStrings(Position) = answer;
+             EventIDs(Position) = 4; % make it a manual event 
         else
              disp('error no input found');
         end
@@ -100,6 +101,7 @@ PositionArray = PositionArray(~BadEvents);
     if(ok)
         NumRecs = length(TimeStamps);
         Mat2NlxEV( OutputFilename, AppendFile, ExtractMode, ExtractModeArray, NumRecs, FieldSelectionOut, TimeStamps, EventIDs, Ttls, Extras, EventStrings, Header );
+        
         disp(['File Created: ' OutputFilename]);
         disp('Remember to rename New_Events.nev to Events.nev if you need to use it with Alexs programs');
     end
