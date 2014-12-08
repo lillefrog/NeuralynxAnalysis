@@ -33,7 +33,11 @@ switch event
     case 'NLX_CUE_OFF'       ; num =   21;
     case 'NLX_DIST1DIMMED'   ; num =   22;
     case 'NLX_DIST2DIMMED'   ; num =   23;
-    case 'NLX_SACCADE_START' ; num =   24;  
+    case 'NLX_SACCADE_START' ; num =   24;
+    case 'NLX_DIMMING1'      ; num =   25; 
+    case 'NLX_DIMMING2'      ; num =   26; 
+    case 'NLX_DIMMING3'      ; num =   27; 
+    case 'NLX_MICRO_STIM'    ; num =   28;   
     case 'NLX_FIXSPOT_OFF'	 ; num =   29;  
     case 'NLX_SUBJECT_END'   ; num =   32;     
     case 'NLX_RECORD_END'    ; num =   64; 
