@@ -40,14 +40,18 @@ end
 TRIAL = 0;
 for i = 1:length(StartEventArr)
     NextStop = find(StopEventArr(:)>StartEventArr(i),1,'first');
-    if ((i<length(StartEventArr)) && (StartEventArr(i+1)<StopEventArr(NextStop)))   % if the next end trial are after the next start trial
-        disp(['Trial Number: ',num2str(i),' is missing a stop event, Trial Skipped']);
+    if ((i<length(StartEventArr)) && (StartEventArr(i+1)<StopEventArr(NextStop)))   % if the next end trial are after the next start trial  
+        disp(['Trial Number: ',num2str(i),' is missing a stop event, Trial Skipped']);   
     elseif isempty(NextStop)   % if there is no next end trial
-        disp(['Trial Number: ',num2str(i),' is missing a stop event, Trial Skipped']);
+        disp(['Trial Number: ',num2str(i),' (last trial) is missing a stop event, Trial Skipped']);
     else
         TRIAL = TRIAL + 1;
-        dividedEventfile{TRIAL} = eventFile(StartEventArr(i):StopEventArr(NextStop),:);
+        dividedEventfile{TRIAL} = eventFile(StartEventArr(i):StopEventArr(NextStop),:); %#ok<AGROW>
     end
 end
 
 dividedEventfile = dividedEventfile';
+    
+
+
+
